@@ -17,7 +17,7 @@ for (let i = 0; i < 100; i += 1) {
   const service = (Math.random() * 5).toFixed(2);
   const ambience = (Math.random() * 5).toFixed(2);
   const noise = faker.random.arrayElement(['do not recall', 'quiet', 'moderate', 'energetic']);
-  const recommend = Math.floor(Math.random());
+  const recommend = Math.random();
   const five = Math.random();
   const four = Math.random() * (1 - five);
   const three = Math.random() * (1 - (five + four));

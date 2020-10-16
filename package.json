@@ -13,7 +13,8 @@
     "start-once": "node server/index.js",
     "seed": "node database/data_seeding.js",
     "test": "jest",
-    "test:coverage": "jest --verbose --coverage"
+    "test:coverage": "jest --verbose --coverage",
+    "schema": "mysql -u root -p < database/schema.sql"
   },
   "dependencies": {
     "axios": "^0.20.0",
