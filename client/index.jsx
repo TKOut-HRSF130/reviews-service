@@ -7,9 +7,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import styled from 'styled-components';
-// import RestaurantInfo from './components/RestaurantInfo';
+import RestaurantInfo from './components/RestaurantInfo';
 import ReviewEntry from './components/ReviewEntry';
-import FullStar from './components/FullStar';
 
 const Main = styled.div`
   padding: 0 1rem;
@@ -25,7 +24,7 @@ const Main = styled.div`
 `;
 
 const Slider = styled.div`
-  height: 720px;
+  height: 820px;
   overflow: auto;
 `;
 
@@ -34,7 +33,7 @@ const Wrapper1 = styled.div`
   padding: 0 0 4rem;
   max-width: inherit;
   width: inherit;
-  transition: top 100ms ease-out;
+  transition: top 150ms ease-out;
   scroll-snap-type: y mandatory;
 `;
 
@@ -44,17 +43,18 @@ class ReviewModule extends React.Component {
     this.state = {
       restaurant: {},
       reviewsList: [],
+      restaurant_id: Math.floor(Math.random() * 100),
     };
     this.getRestaurantInfo = this.getRestaurantInfo.bind(this);
     this.getReviewsList = this.getReviewsList.bind(this);
   }
 
   componentDidMount() {
-    this.getRestaurantInfo();
-    this.getReviewsList();
+    this.getRestaurantInfo(this.state.restaurant_id);
+    this.getReviewsList(this.state.restaurant_id);
   }
 
-  getRestaurantInfo(x = 1) {
+  getRestaurantInfo(x) {
     axios.get(`/api/restaurants/${x}`)
       .then((res) => {
         this.setState({
@@ -66,7 +66,7 @@ class ReviewModule extends React.Component {
       });
   }
 
-  getReviewsList(x = 1) {
+  getReviewsList(x) {
     axios.get(`/api/review_list/${x}`)
       .then((res) => {
         this.setState({
@@ -79,9 +79,15 @@ class ReviewModule extends React.Component {
   }
 
   render() {
-    // const { restaurant } = this.state;
+    const { restaurant } = this.state;
     const { reviewsList } = this.state;
     const reviewLength = reviewsList.length;
+
+    const overall = [];
+    for (let i = 0; i < restaurant.rating_overall; i += 1) {
+      overall.push('star');
+    }
+
     const full = [];
     for (let i = 0; i < reviewLength; i += 1) {
       let starArray = [];
@@ -90,6 +96,7 @@ class ReviewModule extends React.Component {
       }
       full.push(starArray);
     }
+
     const partial = [];
     for (let i = 0; i < reviewLength; i += 1) {
       let starArray = [];
@@ -98,6 +105,7 @@ class ReviewModule extends React.Component {
       }
       partial.push(starArray);
     }
+
     const empty = [];
     for (let i = 0; i < reviewLength; i += 1) {
       let starArray = [];
@@ -110,9 +118,9 @@ class ReviewModule extends React.Component {
     return (
       <div>
         <Main>
+          <RestaurantInfo restaurant={restaurant} length={reviewLength} stars={overall} />
           <Slider>
             <Wrapper1>
-              {/* <RestaurantInfo restaurant={restaurant} length={reviewLength} /> */}
               {reviewsList.map((review, index) => (
                 <ReviewEntry review={review} key={index} full={full[index]} partial={partial[index]} empty={empty[index]} />
               ))}

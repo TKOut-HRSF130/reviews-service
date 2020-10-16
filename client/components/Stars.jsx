@@ -17,14 +17,14 @@ const StarsBar = styled.div`
 
 const Stars = (props) => (
   <StarsBar>
-    {props.full.map(() => (
-      <FullStar />
+    {props.full.map((star, index) => (
+      <FullStar key={index} />
     ))}
-    {props.partial.map(() => (
-      <PartialStar />
+    {props.partial.map((star, index) => (
+      <PartialStar key={index} />
     ))}
-    {props.empty.map(() => (
-      <EmptyStar />
+    {props.empty.map((star, index) => (
+      <EmptyStar key={index} />
     ))}
   </StarsBar>
 );

@@ -17,6 +17,9 @@ const Wrapper = styled.div`
   color: #2d333f;
   display: flex;
   flex-direction: row;
+  &:hover {
+    border: solid 3px #d8d9db;
+  }
 `;
 
 const Left = styled.div`
@@ -109,6 +112,7 @@ const Row1 = styled.div`
 `;
 
 const Row1DotDate = styled.div`
+  padding-left: 5px;
   display: flex;
   font-size: 0.875rem;
   line-height: 1.43;
@@ -189,14 +193,10 @@ const Row4 = styled.div`
   width: 100%;
 `;
 
-const ReadMore = styled.div`
-  display: none;
-`;
-
 const ReportBlockWrapper = styled.div`
   display: flex;
   position: relative;
-  align-self: flex-start;
+  // align-self: flex-start;
   margin: 0;
   padding: 0;
 `;
@@ -210,6 +210,7 @@ const ReportBlock = styled.div`
 `;
 
 const Report = styled.div`
+  justify-content: flex-end;
   margin: 0 0 0 0.25rem;
   font-weight: 500;
   line-height: 1.43;
@@ -217,7 +218,22 @@ const Report = styled.div`
   color: #6f737b;
 `;
 
-const ReviewEntry = (props) => (
+const ReadMore = styled.a`
+  color: #da3743;
+  font-weight: 500;
+  line-height: 1.43;
+  font-size: 0.875rem;
+  cursor: pointer;
+  &: hover {
+    text-decoration: underline;
+  }
+`;
+
+const ReviewEntry = (props) => {
+  const [readMore, setReadMore] = React.useState(false);
+  const linkName = readMore ? '- Read less' : '+ Read more';
+
+  return (
 
   <Wrapper>
     <Left>
@@ -268,18 +284,20 @@ const ReviewEntry = (props) => (
         </Row2NumDot>
 
       </Row2>
-      <Row3>{props.review.review_message}</Row3>
+      <Row3 fullText={readMore}>{props.review.review_message}</Row3>
       <Row4>
         <ReportBlockWrapper>
           <ReportBlock>
-            <ReadMore></ReadMore>
-            <Report>Report</Report>
+            {/* <ReadMore onClick={() => setReadMore(!readMore)}>
+              <span>{linkName}</span>
+            </ReadMore> */}
+            {/* <Report>Report</Report> */}
           </ReportBlock>
         </ReportBlockWrapper>
       </Row4>
     </Right>
   </Wrapper>
-
-);
+  );
+};
 
 export default ReviewEntry;
